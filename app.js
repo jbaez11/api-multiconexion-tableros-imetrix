@@ -42,6 +42,7 @@ app.use('/:bd/:accion',(req, res, next) => {
 
 app.use('/',require('./rutas/agentes.rutas'));
 app.use('/',require('./rutas/basekeywords.rutas'));
+app.use('/',require('./rutas/consumo.rutas'));
 
 
 app.listen(port,()=>{

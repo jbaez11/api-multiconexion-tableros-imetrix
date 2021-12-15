@@ -5,7 +5,7 @@ let mostrarAgents = async (req,res)=>{
     //console.log("conexion",req.conexion)
     
     const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
-    console.log('host',req.params.bd )
+    
         
             baseAgentsModel.find({}).exec((err,data)=>{
                 if(err){
@@ -28,37 +28,25 @@ let mostrarAgents = async (req,res)=>{
 
 //crear agentes
 
- let crearAgents = (req,res)=>{
+let crearAgents = async (req,res)=>{
+
+    const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
+    console.log('host2',req.params.bd )
 
      //obtener cuerpo del formulario
 
      let body = req.body;
-    console.log('body 1' , req.body);
+     console.log('body 2' , req.body);
      
-    let agents;
+    
 
-     switch(req.params.bd){
+    const agents = new baseAgentsModel({
+                
+         name: body.name,
+         identification: body.identification,
+         gender: body.gender
          
-             
-
-         case 'igsSufiCO':
-
-             //obtener datos del formulario y pasarlos al modelo
-
-              agents = new baseAgentsModel({
-                
-                 name: body.name.toUpperCase(),
-                 identification: body.identification,
-                 gender: body.gender
-
-                
-             })
-
-             break;
-             
-
-
-     }
+     })
 
      // guardar en mongo db
      agents.save((err,data)=>{
@@ -77,6 +65,8 @@ let mostrarAgents = async (req,res)=>{
             mensaje:"El agente ha sido creado con exito"
         })
     });
+
+    
     
  }
 
