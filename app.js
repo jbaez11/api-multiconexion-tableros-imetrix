@@ -35,15 +35,15 @@ app.use('/:bd/:accion',(req, res, next) => {
       
   });
 
-  
-
-  
-
 
 app.use('/',require('./rutas/agentes.rutas'));
 app.use('/',require('./rutas/basekeywords.rutas'));
+app.use('/', require('./rutas/categorias.rutas'));
+app.use('/', require('./rutas/modulos.rutas'));
+app.use('/', require('./rutas/clusters.rutas'));
+app.use('/', require('./rutas/keywords.ruta'));
 
 
 app.listen(port,()=>{
-    console.log("app is listening port"+port)
+    console.log("App listening on port" + " " + port)
 })

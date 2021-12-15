@@ -1,6 +1,3 @@
-
-
-
 let mostrarAgents = async (req,res)=>{
     //console.log("conexion",req.conexion)
     
@@ -23,16 +20,16 @@ let mostrarAgents = async (req,res)=>{
 
             return baseAgentsModel
     
-    
 }
 
 //crear agentes
 
  let crearAgents = (req,res)=>{
 
-     //obtener cuerpo del formulario
+    const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
 
-     let body = req.body;
+     //obtener cuerpo del formulario
+    let body = req.body;
     console.log('body 1' , req.body);
      
     let agents;
