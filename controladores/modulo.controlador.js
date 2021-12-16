@@ -1,4 +1,4 @@
-/* PETICION GET PARA OBTENER TODAS LAS CATEGORIAS */
+/* PETICION GET PARA OBTENER TODOS LOS MODULOS */
 let getModulos = async (req, res) =>{
 
     /* Requerimos el Modelo */
@@ -26,7 +26,7 @@ let getModulos = async (req, res) =>{
     return moduloModel
 }/* getCategorias */
 
-/* PETICION POST PARA CREAR UNA CATEGORIA */
+/* PETICION POST PARA CREAR UN MODULO */
 let addModulo = (req, res) => {
 
     /* Requerimos el Modelo */
@@ -66,6 +66,111 @@ let addModulo = (req, res) => {
             mensaje:"El modulo ha sido creado con exito"
         })
     })
-}/* addCategoria */
+}/* addModulo */
 
-module.exports = {addModulo, getModulos}
+/* PETICION PUT PARA EDITAR UN MODULO */
+let editModulo = (req, res) =>{
+
+    /* Requerimos el Modelo */
+    const {moduloModel} = require('../modelos/modulos.modelo')(req.conexion)
+
+    let id = req.params.id;
+    let body = req.body;
+
+    /* Buscamos el id que se pasa por parametro para poder editarlo */
+    moduloModel.findById(id, (err, data) => {
+
+        /* Validamos que no ocurra error en el proceso */
+        if(err){
+            return res.json({
+                status: 500,
+                mensaje: "Error en el servidor",
+                err 
+            }) 
+        }
+    
+        /* Validamos que la categoria exista */
+        if(!data){
+            return res.json({
+                status: 400,
+                mensaje: "El Modulo no existe en la BD",
+                err 
+            }) 
+        } 
+
+        /* Obtenemos los datos del formulario */
+        let datosModulo = {
+            name: body.name,
+            categoria: body.categoria
+        }
+
+        /* Buscamos y actualizamos por medio del ID */
+        moduloModel.findByIdAndUpdate(id, datosModulo, {new: true, runValidators: true}, (err, data)=>{
+            /* Si hay error */
+            if(err){
+                return res.json({
+                    status: 400,
+                    mensaje: "Error al editar el Modulo",
+                    err 
+                }) 
+            }
+            /* Si no hay error */
+            res.json({
+                status: 200,
+                data,
+                mensaje: "El modulo ha sido actualizado con exito."
+            })
+        })
+    })
+}/* editModulo */
+
+let deleteModulo = (req, res) => {
+
+    /* Requerimos el Modelo */
+    const {moduloModel} = require('../modelos/modulos.modelo')(req.conexion)
+
+    let id = req.params.id;
+
+    /* Buscamos el id que se pasa por parametro del documento a eliminar */
+    moduloModel.findById(id, (err, data) =>{
+
+        /* Validamos que no ocurra error en el proceso */
+        if(err){
+            return res.json({
+                status: 500,
+                mensaje: "Error en el servidor",
+                err 
+            }) 
+        }
+
+        /* Validamos que el modulo exista */
+        if(!data){
+            return res.json({
+                status: 400,
+                mensaje: "El Modulo no existe en la BD",
+                err 
+            }) 
+        }
+
+        /* Borramos registro en BD */
+        moduloModel.findByIdAndRemove(id, (err, data) =>{
+            /* Validamos que no ocurra error en el proceso */
+            if(err){
+                return res.json({
+                    status: 400,
+                    mensaje: "Error al Borrar el Modulo de BD",
+                    err 
+                }) 
+            }
+            /* Si no hay error */
+            res.json({
+                status: 200,
+                data,
+                mensaje: "El Modulo ha sido eliminado correctamente de la BD"
+            })
+        })
+
+    })
+}
+
+module.exports = {addModulo, getModulos, editModulo, deleteModulo}

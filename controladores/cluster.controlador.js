@@ -1,4 +1,4 @@
-/* PETICION GET PARA OBTENER TODAS LAS CATEGORIAS */
+/* PETICION GET PARA OBTENER TODAS LOS CLUSTERS */
 let getClusters = async (req, res) =>{
 
     /* Requerimos el Modelo */
@@ -24,9 +24,9 @@ let getClusters = async (req, res) =>{
     })
 
     return clusterModel
-}/* getCategorias */
+}/* getClusters */
 
-/* PETICION POST PARA CREAR UNA CATEGORIA */
+/* PETICION POST PARA CREAR UN CLUSTER */
 let addCluster = (req, res) => {
 
     /* Requerimos el Modelo */
@@ -84,10 +84,11 @@ let addCluster = (req, res) => {
 
             console.log(validacion);
             /* si validacion es false no permite ingresar el nuevo cluster y devuelve una respuesta en json */
-            if(validacion == false){
+            if(!validacion){
+                console.log("Validacion")
                 return res.json({
-                    Status: 400,
-                    Mensaje: "Error al guardar el Cluster porque el porcentaje general es mayor a 1."
+                    Status: 401,
+                    mensaje: "Error al guardar el Cluster porque el porcentaje general es mayor a 1."
                 })
             }else if(validacion == true){ /* si la variable validacion es true inserta el nuevo cluster a la colección */
                 /* Guardamos en BD */
@@ -96,7 +97,7 @@ let addCluster = (req, res) => {
                     if(err){
                         return res.json({
                             Status: 400,
-                            Mensaje: "Error al guardar el Cluster.",
+                            mensaje: "Error al guardar el Cluster.",
                             err
                         })
                     }
@@ -104,12 +105,121 @@ let addCluster = (req, res) => {
                     res.json({
                         status: 200,
                         data,
-                        Mensaje: "El Cluster ha sido creado con exito."
+                        mensaje: "El Cluster ha sido creado con exito."
                         })
                 })
             }
     })
 
-}/* addCategoria */
+}/* addCluster */
 
-module.exports = {addCluster, getClusters}
+/* PETICION PUT PARA EDITAR UN CLUSTER */
+let editCluster = (req, res) => {
+
+    /* Requerimos el Modelo */
+    const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
+
+    let id = req.params.id;
+    let body = req.body;
+
+    /* Buscamos el id que se pasa por parametro del documento a editar */
+    clusterModel.findById(id, (err, data) =>{
+
+        /* Validamos que no ocurra error en el proceso */
+        if(err){
+            return res.json({
+                status: 500,
+                mensaje: "Error en el servidor",
+                err 
+            }) 
+        }
+
+        /* Validamos que el cluster exista */
+        if(!data){
+            return res.json({
+                status: 400,
+                mensaje: "El Cluster no existe en la BD",
+                err 
+            }) 
+        }
+
+        /* Obtenemos los datos del formulario */
+        let datosCluster = {
+            name: body.name,
+            modulo: body.modulo,
+            porcentaje: body.porcentaje
+        }
+
+        /* Buscamos por medio del ID y actualizamos */
+        clusterModel.findByIdAndUpdate(id, datosCluster, {new: true, runValidators: true}, (err, data)=>{
+            if(err){
+                return res.json({
+                    status: 400,
+                    mensaje: "Error al editar el Cluster.",
+                    err 
+                }) 
+            }
+
+            res.json({
+                status: 200,
+                data,
+                mensaje: "El cluster ha sido actualizado con exito."
+            })
+        })
+
+    })
+
+}/* editCluster */
+
+/* PETICION DELETE PARA ELIMINAR UN CLUSTER */
+let deleteCluster = (req, res) => {
+
+    /* Requerimos el Modelo */
+    const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
+
+    //capturamos el ID del Cluster a borrar
+    let id = req.params.id;
+
+    //Buscamos el id que se pasa por parametro del documento a eliminar
+    clusterModel.findById(id, (err, data) =>{
+ 
+        //Validamos que no ocurra error en el proceso
+        if(err){
+            return res.json({
+                status: 500,
+                mensaje: "Error en el servidor",
+                err 
+            }) 
+        }
+ 
+        //Validamos que la categoria exista
+        if(!data){
+            return res.json({
+                status: 400,
+                mensaje: "El Cluster no existe en la BD",
+                err 
+            }) 
+        }
+ 
+        //Borramos registro en BD
+        clusterModel.findByIdAndRemove(id, (err, data) =>{
+            //Validamos que no ocurra error en el proceso
+            if(err){
+                return res.json({
+                    status: 400,
+                    mensaje: "Error al Borrar el cluster de BD",
+                    err 
+                }) 
+            }
+ 
+            res.json({
+                status: 200,
+                data,
+                mensaje: "El Cluster ha sido eliminado correctamente de la BD"
+            })
+        })
+    })
+}/* deleteCluster */
+
+/* Exportamos las funciones */
+module.exports = {addCluster, getClusters, editCluster, deleteCluster}

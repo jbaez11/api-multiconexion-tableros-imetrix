@@ -1,6 +1,7 @@
 module.exports = function(conexion){
     const mongoose = require('mongoose');
     const Schema = mongoose.Schema;
+    
 
     var clusterSchema = new Schema({
         name : {
@@ -22,6 +23,7 @@ module.exports = function(conexion){
             default: Date.now 
         }
     })
+
 
     let clusterModel = conexion.model('clusters', clusterSchema);
         return {clusterModel}
