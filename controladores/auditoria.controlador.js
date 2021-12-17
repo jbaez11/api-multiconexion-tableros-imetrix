@@ -1,15 +1,16 @@
-let mostrarConsumo = async (req,res)=>{
-    //console.log("conexion",req.conexion)
+let mostrarAuditoria = async (req,res)=>{
     
-    const {consumoModel} = require('../modelos/consumo.modelo')(req.conexion)
+    
+    const {auditoriasModel} = require('../modelos/auditoria.modelo')(req.conexion)
     
             let query = req.query;
+            console.log("query",query)
             
             let filter = {
                 eventDate:{$gte:[query.eventDate[0]],$lte:[query.eventDate[1]]}
             }
             console.log("filter",filter)
-            consumoModel.find(filter).exec((err,data)=>{
+            auditoriasModel.find(filter).exec((err,data)=>{
                 if(err){
                     return res.json({
                         status : 500,
@@ -23,13 +24,13 @@ let mostrarConsumo = async (req,res)=>{
                 })
             })
 
-            return consumoModel
+            return auditoriasModel
     
     
 }
 
 module.exports = {
-    mostrarConsumo,
+    mostrarAuditoria,
     
 }
 
