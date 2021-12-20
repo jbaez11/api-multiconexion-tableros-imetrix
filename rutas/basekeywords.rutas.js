@@ -1,12 +1,14 @@
 const express = require('express');
-//const router = express.Router();
 const app = express();
-const BaseKeywords = require('../controladores/basekeywords.controlador');
 
+/* Requerimos el Modelo de categorias */
+const KeyWords = require('../controladores/basekeywords.controlador');
 
+/* Creamos las rutas para realizar las peticiones */
+app.post("/:bd/addKeyword", KeyWords.addKeyWord)
+app.get("/:bd/getKeywords", KeyWords.getKeyWords)
+app.put("/:bd/editKeyWord/:id", KeyWords.editKeyWord)
+app.delete("/:bd/deleteKeyWord/:id", KeyWords.deleteKeyWord)
 
-
-app.get('/:bd/basekeywords',BaseKeywords.mostrarBaseKeywords);
-app.post('/:bd/crear-keywords',BaseKeywords.crearBaseKeywords);
-
+/* Exportamos las rutas */
 module.exports = app;

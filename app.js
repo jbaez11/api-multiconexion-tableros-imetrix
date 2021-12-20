@@ -41,10 +41,12 @@ app.use('/',require('./rutas/basekeywords.rutas'));
 app.use('/', require('./rutas/categorias.rutas'));
 app.use('/', require('./rutas/modulos.rutas'));
 app.use('/', require('./rutas/clusters.rutas'));
-app.use('/', require('./rutas/keywords.ruta'));
+app.use('/', require('./rutas/basekeywords.rutas'));
+app.use('/', require('./rutas/keywords.rutas'));
 app.use('/',require('./rutas/consumo.rutas'));
 app.use('/',require('./rutas/auditoria.rutas'));
 app.use('/', require('./rutas/pruebas.rutas'));
+
 
 
 app.listen(port,()=>{

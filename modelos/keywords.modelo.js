@@ -2,24 +2,27 @@ module.exports = function(conexion){
     const mongoose = require('mongoose');
     const Schema = mongoose.Schema;
 
-    var keyWordsSchema = new Schema({
-        name : {
-            type: String,
-            required:[true, "El nombre de la Keyword o Frase es obligatorio"],
-            lowercase: true
+    var keywordsSchema = new Schema({
+        keyfile : String,
+        eventDatetime: Date,
+        eventDate:Date,
+        agent :{keywordsme : String,
+            identification: String,
+            gender:String,
+            createdAt:Date,
         },
-        cluster:{
-            type: Schema.Types.ObjectId, 
-            ref: 'clusters', 
-            required: [true, "El cluster es obligatorio."]
+        keywords:{
+            // aqui indicas que el tipo de dato es Array
+            type: Object,
+            // aqui lo inicializas por defecto como un array vacío
+            default: {}
         },
-        createdAt : { 
-            type: Date, 
-            default: Date.now 
-        }
-    })
+        createdAt:Date
+    
+        
+    });
 
-    let keyWordsModel = conexion.model('finalkeywords', keyWordsSchema);
-        return {keyWordsModel}
+    let keywordsModel = conexion.model('keywords', keywordsSchema);
+        return {keywordsModel}
 
 };

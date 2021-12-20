@@ -1,35 +1,25 @@
-const mongoose = require('mongoose');
-//const conn = require('../config/db');
-//const { IgsSufiCO} = require('../config/db');
+module.exports = function(conexion){
+    const mongoose = require('mongoose');
+    const Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema;
+    var keyWordsSchema = new Schema({
+        name : {
+            type: String,
+            required:[true, "El nombre de la Keyword o Frase es obligatorio"],
+            lowercase: true
+        },
+        cluster:{
+            type: Schema.Types.ObjectId, 
+            ref: 'clusters', 
+            required: [true, "El cluster es obligatorio."]
+        },
+        createdAt : { 
+            type: Date, 
+            default: Date.now 
+        }
+    })
 
-var baseKeywordsSchema = new Schema({
-    keyword : {
-        type: String,
-        required:[true,"la palabra/frase es obligatoria"],
-        uppercase: true,
-    },
-    
-    category:{
-        type: String,
-        unique:true,
-        required:[true,"La categoria es obligatoria"],
-    },
-    module: {
-        type: String,
-        required:[true,"El modulo es obligatorio"],
-    },
-    cluster: {
-        type: String,
-        required:[true,"El cluster es obligatorio"],
-    },
-    createdAt: { 
-        type: Date, 
-        default: Date.now 
-    },
-})
+    let keyWordsModel = conexion.model('finalkeywords', keyWordsSchema);
+        return {keyWordsModel}
 
-
-//let baseKeywordsModelSufi = IgsSufiCO.model('BaseKeywords',baseKeywordsSchema);
-//module.exports = {baseKeywordsModelSufi};
+};
