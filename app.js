@@ -45,6 +45,7 @@ app.use('/', require('./rutas/basekeywords.rutas'));
 app.use('/', require('./rutas/keywords.rutas'));
 app.use('/',require('./rutas/consumo.rutas'));
 app.use('/',require('./rutas/auditoria.rutas'));
+app.use('/', require('./rutas/puntajes.rutas'));
 app.use('/', require('./rutas/pruebas.rutas'));
 
 
