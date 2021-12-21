@@ -30,7 +30,7 @@ let mostrarAgents = async (req,res)=>{
 
      //obtener cuerpo del formulario
     let body = req.body;
-    console.log('body 1' , req.body);
+    //console.log('body 1' , req.body);
      
     
     //obtener datos del formulario y pasarlos al modelo
@@ -40,9 +40,8 @@ let mostrarAgents = async (req,res)=>{
         name: body.name.toUpperCase(),
         identification: body.identification,
         gender: body.gender
-
-                
-             })
+             
+    })
 
      // guardar en mongo db
      agents.save((err,data)=>{
@@ -66,21 +65,17 @@ let mostrarAgents = async (req,res)=>{
 
  let editarAgent = (req,res)=>{
 
+    /* Requerimos el Modelos */
     const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
-    console.log('host',req.params.bd )
-    //capturar id del admin
 
+    /* Obtenemos el id */
     let id = req.params.id;
-    console.log('id',id)
-
-    //obtener el cuerpo del formulario
-
     let body = req.body;
-    console.log("body",body);
-
+    
+    /* Buscamos el id que se pasa por parametro del documento a editar */
     baseAgentsModel.findById(id,(err,data) => {
-        // validar que no se tenga error en la BD
-
+       
+        /* Validamos que no ocurra error en el proceso */
         if(err){
             return res.json({
                 status:500,
@@ -89,85 +84,45 @@ let mostrarAgents = async (req,res)=>{
             })
         }
 
-        //validar existencia del admin
-
+        /* Validamos que el agente exista */
         if(!data){
             return res.json({
                 status:404,
                 mensaje: "El Agente no existe en la BD",
-                
+                err
             })
-
         }
 
-        // 3. actualizar registros
+         /* Obtenemos los datos del formulario */
+         let datosAgentes = {
+            name: body.name,
+            identification: body.identification,
+            gender: body.gender
+        }
 
-        let cambiarRegistrosBD = (id,body)=>{
-            return new Promise((resolve,reject)=>{
-
-                let datosAgents = {
-                    name : body.name,
-                    identification : body.identification,
-                    gender : body.gender,
-                }
-        
-                //actualizar en mongoDB
-        
-                baseAgentsModel.findByIdAndUpdate(id,datosAgents, {new:true,runValidators:true}, (err,data) => {
-                    if(err){
-                        let respuesta = {
-                            res:res,
-                            error:err
-                        }
-
-                        reject(respuesta);
-                        // return res.json({
-                        //     status:400,
-                        //     mensaje: "Error al editar slide",
-                        //     err
-                        // }) 
-                    }
-        
-                    
-
-                    let respuesta = {
-                        res:res,
-                        data:data
-                    }
-                    resolve(respuesta);
-                })
-
-                cambiarRegistrosBD(id,body).then(respuesta =>{
-                    respuesta["res"].json({
-                        status:200,
-                        data: respuesta["data"],
-                        mensaje: "El Agente ha sido actualizado con exito"
-                    })
-                }).catch(respuesta =>{
-                    respuesta["res"].json({
-                        status:400,
-                        err: respuesta["err"],
-                        mensaje: "Error al editar el Agente"
+               /* Buscamos por medio del ID y actualizamos */
+               baseAgentsModel.findByIdAndUpdate(id, datosAgentes, {new: true, runValidators: true}, (err, data)=>{
+                if(err){
+                    return res.json({
+                        status: 400,
+                        mensaje: "Error al editar el agente.",
+                        err 
                     }) 
+                }
+    
+                res.json({
+                    status: 200,
+                    data,
+                    mensaje: "El agente ha sido actualizado con exito."
                 })
-
             })
 
-        }
     })
-    
-
-
- 
 }
-
-
-
-
 
 module.exports = {
     mostrarAgents,
     crearAgents,
-    editarAgent,
+    editarAgent
 }
 
