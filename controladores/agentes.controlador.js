@@ -22,20 +22,16 @@ let mostrarAgents = async (req,res)=>{
     
 }
 
-//crear agentes
-
- let crearAgents = (req,res)=>{
+/* CREAR AGENTE */
+let crearAgents = (req,res)=>{
 
     const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
 
-     //obtener cuerpo del formulario
+    /* Obtenemos el cuerpo del formulario */
     let body = req.body;
-    //console.log('body 1' , req.body);
-     
-    
-    //obtener datos del formulario y pasarlos al modelo
 
-     const agents = new baseAgentsModel({
+    /* Obtenemos los datos del formulario */
+    const agents = new baseAgentsModel({
                 
         name: body.name.toUpperCase(),
         identification: body.identification,
@@ -43,17 +39,17 @@ let mostrarAgents = async (req,res)=>{
              
     })
 
-     // guardar en mongo db
-     agents.save((err,data)=>{
+    /* Guardamos en BD */
+    agents.save((err,data)=>{
+        /* Si hay Error */
         if(err){
-
             return res.json({
             status:400,
             mensaje:"Error al almacenar el agente",
             err
             })
         }
-
+        /* Si no hay Error */
         res.json({
             status:200,
             data,
@@ -61,11 +57,12 @@ let mostrarAgents = async (req,res)=>{
         })
     });
     
- }
+}
 
- let editarAgent = (req,res)=>{
+/* EDITAR AGENTE */
+let editarAgent = (req,res)=>{
 
-    /* Requerimos el Modelos */
+    /* Requerimos el Modelo */
     const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
 
     /* Obtenemos el id */
@@ -93,8 +90,8 @@ let mostrarAgents = async (req,res)=>{
             })
         }
 
-         /* Obtenemos los datos del formulario */
-         let datosAgentes = {
+        /* Obtenemos los datos del formulario */
+        let datosAgentes = {
             name: body.name,
             identification: body.identification,
             gender: body.gender
@@ -120,6 +117,7 @@ let mostrarAgents = async (req,res)=>{
     })
 }
 
+/* Exportamos las Funciones */
 module.exports = {
     mostrarAgents,
     crearAgents,
