@@ -10,5 +10,7 @@ app.get("/:bd/getModulos", Modulos.getModulos)
 app.put("/:bd/editModulo/:id", Modulos.editModulo)
 app.delete("/:db/deleteModulo/:id", Modulos.deleteModulo)
 
+
+
 /* Exportamos las rutas */
 module.exports = app;
