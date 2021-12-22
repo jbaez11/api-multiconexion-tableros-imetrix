@@ -49,8 +49,6 @@ app.use('/', require('./rutas/puntajes.rutas'));
 app.use('/', require('./rutas/estadisticas.rutas'));
 app.use('/', require('./rutas/pruebas.rutas'));
 
-
-
 app.listen(port,()=>{
     console.log("App listening on port" + " " + port)
 })
