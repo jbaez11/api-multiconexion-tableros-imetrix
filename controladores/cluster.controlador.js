@@ -40,9 +40,6 @@ let addCluster = (req, res) => {
     let validacion = false;//variable que valida si se puede insertar o no un nuevo cluster dependiendo del resultado de sumaTotal
     let cluster;
 
-    switch(req.params.bd){
-
-        case 'igsSufiCO':
 
             /* Creamos un nuevo modelo del formulario */
             cluster = new clusterModel({
@@ -53,8 +50,8 @@ let addCluster = (req, res) => {
 
             porcentajeInsert = cluster.porcentaje
             console.log("Porcentaje a Insertar", porcentajeInsert);
-            break;
-    }
+
+
 
      /* Recorremos la cantidad de documentos que hay en la colección de Cluster para obtener los porcentajes */
      clusterModel.find({}, {_id:false, porcentaje:true}).exec((err, data) => {

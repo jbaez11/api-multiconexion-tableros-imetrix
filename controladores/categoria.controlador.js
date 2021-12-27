@@ -35,17 +35,14 @@ let addCategoria = (req, res) => {
     let body = req.body;
     let categoria;
 
-    switch(req.params.bd){
+        /* Creamos un nuevo modelo del formulario */
 
-        case 'igsSufiCO':
-            /* Creamos un nuevo modelo del formulario */
+        categoria = new categoriaModel({
+            name: body.name.toLowerCase()
+        })
 
-            categoria = new categoriaModel({
-                name: body.name.toLowerCase()
-            })
+         
 
-            break;
-    }
 
     /* Guardamos en Base de Datos */
     categoria.save((err, data) =>{

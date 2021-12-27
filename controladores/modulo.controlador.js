@@ -36,18 +36,12 @@ let addModulo = (req, res) => {
     let body = req.body;
     let modulo;
 
-    switch(req.params.bd){
-
-        case 'igsSufiCO':
-            /* Creamos un nuevo modelo del formulario */
 
             modulo = new moduloModel({
                 name: body.name.toLowerCase(),
                 categoria: body.categoria
             })
 
-            break;
-    }
 
     /* Guardamos en Base de Datos */
     modulo.save((err, data) =>{

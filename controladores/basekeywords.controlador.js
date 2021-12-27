@@ -36,9 +36,6 @@ let addKeyWord = (req, res) => {
     let body = req.body;
     let keyword;
 
-    switch(req.params.bd){
-
-        case 'igsSufiCO':
             
             /* Creamos un nuevo modelo del formulario */
             keyword = new keyWordsModel({
@@ -46,8 +43,6 @@ let addKeyWord = (req, res) => {
                 cluster: body.cluster
             })
 
-            break;
-    }
 
     /* Guardamos en Base de Datos */
     keyword.save((err, data) =>{
