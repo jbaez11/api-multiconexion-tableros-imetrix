@@ -6,7 +6,8 @@ module.exports = function(conexion){
         name : {
             type: String,
             required:[true,"El nombre de la Categoria es obligatorio"],
-            lowercase: true
+            lowercase: true,
+            unique: true
         },
         createdAt: { 
             type: Date, 
