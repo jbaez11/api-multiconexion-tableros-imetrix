@@ -2,6 +2,8 @@ let mostrarAgents = async (req,res)=>{
     //console.log("conexion",req.conexion)
     
     const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
+
+    
     console.log('host',req.params.bd )
         
             baseAgentsModel.find({}).exec((err,data)=>{
