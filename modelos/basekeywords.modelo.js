@@ -6,7 +6,8 @@ module.exports = function(conexion){
         name : {
             type: String,
             required:[true, "El nombre de la Keyword o Frase es obligatorio"],
-            lowercase: true
+            lowercase: true,
+            unique: true
         },
         cluster:{
             type: Schema.Types.ObjectId, 

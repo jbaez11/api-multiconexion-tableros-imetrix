@@ -7,7 +7,8 @@ module.exports = function(conexion){
         name : {
             type: String,
             required:[true,"El nombre del Modulo es obligatorio"],
-            lowercase: true
+            lowercase: true,
+            unique: true
         },
         modulo:{
             type: Schema.Types.ObjectId, 

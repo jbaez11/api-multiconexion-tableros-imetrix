@@ -145,7 +145,7 @@ let deleteKeyWord = (req, res) => {
         if(!data){
             return res.json({
                 status: 400,
-                mensaje: "La KeyWord/Frase no existe en la BD",
+                mensaje: "La KeyWord/Frase no existe en la Colección",
                 err 
             }) 
         }
@@ -156,7 +156,7 @@ let deleteKeyWord = (req, res) => {
             if(err){
                 return res.json({
                     status: 400,
-                    mensaje: "Error al Borrar la keyword de BD",
+                    mensaje: "Error al Borrar la keyword de la Colección",
                     err 
                 }) 
             }
@@ -164,7 +164,7 @@ let deleteKeyWord = (req, res) => {
             res.json({
                 status: 200,
                 data,
-                mensaje: "La keyWord ha sido eliminada correctamente de la BD"
+                mensaje: "La keyWord ha sido eliminada correctamente de la Colección"
             })
         })
     })
