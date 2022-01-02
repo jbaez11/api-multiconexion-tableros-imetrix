@@ -11,7 +11,7 @@ module.exports = function(conexion){
         },
         categoria : {
             type: Schema.Types.ObjectId, 
-            ref: 'categorias', 
+            ref: 'Categoria', 
             required: [true, "La categoria es obligatoria!!."],
             lowercase: true
         },

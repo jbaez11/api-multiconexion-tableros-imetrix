@@ -3,16 +3,19 @@ let getModulos = async (req, res) =>{
 
     /* Requerimos el Modelo */
     const {moduloModel} = require('../modelos/modulos.modelo')(req.conexion)
-
+    //let Prueba = await require('../modelos/modulos.modelo')(req.conexion).moduloModel
+    //.populate({path:'categoria',select:'name'})
+    //.populate('categoria')
     /* Buscamos en la Coleccion de categorias */
     moduloModel.find({})
+    //.populate({path:'categoria',model:"Categoria"})
     .exec((err, data) => {
         /* Si hay Error en la petición */
         if(err){
             return res.json({
                 status : 500,
                 mensaje: "Error en la petición",
-                err
+                
             })
         }
         /* Si no hay Error */
@@ -22,7 +25,7 @@ let getModulos = async (req, res) =>{
             data
         })
     })
-
+    
     return moduloModel
 }/* getCategorias */
 
