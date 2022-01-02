@@ -2,7 +2,7 @@ module.exports = function(conexion){
     const mongoose = require('mongoose');
     const Schema = mongoose.Schema;
     
-
+ 
     var clusterSchema = new Schema({
         name : {
             type: String,
@@ -12,7 +12,7 @@ module.exports = function(conexion){
         },
         modulo:{
             type: Schema.Types.ObjectId, 
-            ref: 'modulos', 
+            ref: 'Modulo', 
             required: [true, "El modulo es obligatorio."]
         },
         porcentaje:{
