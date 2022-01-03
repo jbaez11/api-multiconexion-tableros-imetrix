@@ -2,8 +2,6 @@
 require('./config')
 const mongoose = require('mongoose');
 
-
-
 function makeNewConnection(dbname) {
 
     const db = mongoose.createConnection(process.env.STRING_CONNECTION,{

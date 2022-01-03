@@ -5,8 +5,7 @@ let getClusters = async (req, res) =>{
     const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
 
     /* Buscamos en la Coleccion de categorias */
-    clusterModel.find({"name":"identificación"})
-    .populate({path:"modulo", model:"modulos"})
+    clusterModel.find({})
     .exec((err, data) => {
         /* Si hay Error en la petición */
         if(err){
