@@ -17,7 +17,7 @@ let getModulos = async (req, res) =>{
             return res.json({
                 status : 500,
                 mensaje: "Error en la petición",
-                err
+                
             })
         }
         /* Si no hay Error */
@@ -27,7 +27,7 @@ let getModulos = async (req, res) =>{
             data
         })
     })
-
+    
     return moduloModel
 }/* getCategorias */
 

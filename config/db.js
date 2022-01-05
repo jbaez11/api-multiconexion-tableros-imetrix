@@ -2,6 +2,8 @@
 require('./config')
 const mongoose = require('mongoose');
 
+
+
 function makeNewConnection(dbname) {
 
     const db = mongoose.createConnection(process.env.STRING_CONNECTION,{
@@ -19,11 +21,13 @@ function makeNewConnection(dbname) {
         db.close().catch(() => console.log(`MongoDB :: failed to close connection ${this.name}`));
     });
 
+
     db.on('connected', function () {
         mongoose.set('debug', function (col, method, query, doc) {
             console.log(`MongoDB :: ${this.conn.name} ${col}.${method}(${JSON.stringify(query)},${JSON.stringify(doc)})`);
         });
         console.log(`MongoDB :: connected ${this.name}`);
+        
     });
 
     db.on('disconnected', function () {

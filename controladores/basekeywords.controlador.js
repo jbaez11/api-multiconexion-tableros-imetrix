@@ -32,7 +32,7 @@ let getKeyWords = async (req, res) =>{
 let addKeyWord = (req, res) => {
 
     /* Requerimos el Modelo */
-    const {keyWordsModel} = require('../modelos/keywords.modelo')(req.conexion)
+    const {keyWordsModel} = require('../modelos/basekeywords.modelo')(req.conexion)
 
     /* Obtenemos el cuerpo del formulario */
     let body = req.body;
@@ -69,7 +69,7 @@ let addKeyWord = (req, res) => {
 let editKeyWord = (req, res) => {
 
     /* Requerimos el Modelo */
-    const {keyWordsModel} = require('../modelos/keywords.modelo')(req.conexion)
+    const {keyWordsModel} = require('../modelos/basekeywords.modelo')(req.conexion)
 
     let id = req.params.id;
     let body = req.body;
@@ -126,7 +126,7 @@ let editKeyWord = (req, res) => {
 let deleteKeyWord = (req, res) => {
     
     /* Requerimos el Modelo */
-    const {keyWordsModel} = require('../modelos/keywords.modelo')(req.conexion)
+    const {keyWordsModel} = require('../modelos/basekeywords.modelo')(req.conexion)
 
     /* capturamos el ID de la keyword a borrar */
     let id = req.params.id;
