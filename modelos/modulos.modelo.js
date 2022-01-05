@@ -21,7 +21,7 @@ module.exports = function(conexion){
         }
     })
 
-    let moduloModel = conexion.model('Modulo', moduloSchema);
+    let moduloModel = conexion.model('modulos', moduloSchema);
         return {moduloModel}
 
 };
