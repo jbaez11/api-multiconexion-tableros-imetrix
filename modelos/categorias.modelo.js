@@ -16,6 +16,6 @@ module.exports = function(conexion){
         }
     })
 
-    let categoriaModel = conexion.model('Categoria', categoriaSchema);
+    let categoriaModel = conexion.model('categorias', categoriaSchema);
         return {categoriaModel}
 };
