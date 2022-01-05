@@ -3,10 +3,15 @@ let getModulos = async (req, res) =>{
 
     /* Requerimos el Modelo */
     const {moduloModel} = require('../modelos/modulos.modelo')(req.conexion)
+    const {categoriaModel} = require('../modelos/categorias.modelo')(req.conexion)
 
+    console.log("Modelos",req.conexion.models)
+  
     /* Buscamos en la Coleccion de categorias */
     moduloModel.find({})
+    .populate({path:"categoria", model : "categorias"})
     .exec((err, data) => {
+        console.log(err)
         /* Si hay Error en la petición */
         if(err){
             return res.json({

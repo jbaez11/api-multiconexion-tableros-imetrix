@@ -3,9 +3,11 @@ let getClusters = async (req, res) =>{
 
     /* Requerimos el Modelo */
     const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
+    const {moduloModel} = require('../modelos/modulos.modelo')(req.conexion)
 
     /* Buscamos en la Coleccion de categorias */
     clusterModel.find({})
+    .populate({path:"modulo", model:"modulos"})
     .exec((err, data) => {
         /* Si hay Error en la petición */
         if(err){

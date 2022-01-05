@@ -3,9 +3,11 @@ let getKeyWords = async (req, res) =>{
 
     /* Requerimos el Modelo */
     const {keyWordsModel} = require('../modelos/basekeywords.modelo')(req.conexion)
+    const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
 
     /* Buscamos en la Coleccion de keywords */
     keyWordsModel.find({})
+    .populate({path:"cluster", model:"clusters"})
     .exec((err, data) => {
         /* Si hay Error en la petición */
         if(err){

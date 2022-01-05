@@ -17,7 +17,7 @@ let getPruebas = async (req, res) =>{
         /* Si no hay Error */
         res.json({
             status: 200,
-            mensaje: "Categorias",
+            mensaje: "Prueba",
             data
         })
     })

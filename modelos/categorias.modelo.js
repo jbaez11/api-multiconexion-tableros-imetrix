@@ -1,7 +1,8 @@
-module.exports = function(conexion){
-    const mongoose = require('mongoose');
-    const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
+module.exports = function(conexion){
+    
     var categoriaSchema = new Schema({
         name : {
             type: String,
@@ -17,5 +18,4 @@ module.exports = function(conexion){
 
     let categoriaModel = conexion.model('categorias', categoriaSchema);
         return {categoriaModel}
-
 };

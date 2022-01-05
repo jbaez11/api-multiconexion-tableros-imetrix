@@ -4,6 +4,7 @@ let getCategorias = async (req, res) =>{
     /* Requerimos el Modelo */
     const {categoriaModel} = require('../modelos/categorias.modelo')(req.conexion)
 
+
     /* Buscamos en la Coleccion de categorias */
     categoriaModel.find({}).exec((err, data) => {
         /* Si hay Error en la petición */
