@@ -2,10 +2,13 @@ let mostrarAgents = async (req,res)=>{
     //console.log("conexion",req.conexion)
     
     const {baseAgentsModel} = require('../modelos/agentes.modelo')(req.conexion)
+    const {categoriaModel} = require('../modelos/categorias.modelo')(req.conexion)
 
     
     console.log('host',req.params.bd )
-        
+        /* const categoryDefault = new categoriaModel({name:'infaltable'},{name:'no permitida'},{name:'recomendación'})
+        categoryDefault.save() */
+        categoriaModel.create({name:'infaltable'},{name:'no permitida'},{name:'recomendación'})
             baseAgentsModel.find({}).exec((err,data)=>{
                 if(err){
                     return res.json({
@@ -21,6 +24,8 @@ let mostrarAgents = async (req,res)=>{
             })
 
             return baseAgentsModel
+
+            
     
 }
 
