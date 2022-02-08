@@ -48,6 +48,8 @@ app.use('/',require('./rutas/auditoria.rutas'));
 app.use('/', require('./rutas/puntajes.rutas'));
 app.use('/', require('./rutas/estadisticas.rutas'));
 app.use('/', require('./rutas/scoringkeywords.rutas'));
+app.use('/', require('./rutas/conversaciones.rutas'));
+app.use('/', require('./rutas/auditconversaciones.rutas'));
 app.use('/', require('./rutas/pruebas.rutas'));
 
 app.listen(port,()=>{
