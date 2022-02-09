@@ -7,7 +7,7 @@ let mostrarConversacion = async (req,res)=>{
             console.log("query",query)
             
             let filter = {
-                eventDate:{$gte:[query.eventDate[0]],$lte:[query.eventDate[1]]}
+                eventDate:query.eventDate
             }
             console.log("filter",filter)
             conversationsModel.find(filter).exec((err,data)=>{
