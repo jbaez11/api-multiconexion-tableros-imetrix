@@ -44,7 +44,8 @@ let addModulo = (req, res) => {
 
             modulo = new moduloModel({
                 name: body.name.toLowerCase(),
-                categoria: body.categoria
+                categoria: body.categoria,
+                orden: body.orden
             })
 
 
@@ -100,7 +101,8 @@ let editModulo = (req, res) =>{
         /* Obtenemos los datos del formulario */
         let datosModulo = {
             name: body.name,
-            categoria: body.categoria
+            categoria: body.categoria,
+            orden: body.orden
         }
 
         /* Buscamos y actualizamos por medio del ID */
@@ -127,13 +129,13 @@ let deleteModulo = (req, res) => {
 
     /* Requerimos el Modelo */
     const {moduloModel} = require('../modelos/modulos.modelo')(req.conexion)
+    const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
 
     let id = req.params.id;
 
-    /* Buscamos el id que se pasa por parametro del documento a eliminar */
-    moduloModel.findById(id, (err, data) =>{
-
-        /* Validamos que no ocurra error en el proceso */
+    /* Buscamos el id de modulo que queremos eliminar en el modelo de clusters
+    para validar que no este asociado a uno o mas clusters */
+    clusterModel.find({modulo: id}, (err, data) =>{
         if(err){
             return res.json({
                 status: 500,
@@ -141,35 +143,56 @@ let deleteModulo = (req, res) => {
                 err 
             }) 
         }
-
-        /* Validamos que el modulo exista */
-        if(!data){
+        if(data.length > 0){
             return res.json({
-                status: 400,
-                mensaje: "El Modulo no existe en la BD",
-                err 
-            }) 
+                status: 501,
+                mensaje: "Modulo asociado a uno o mas Clusters, primero elimine esos Clusters o asocielos a un Modulo diferente",
+                data
+            })  
         }
-
-        /* Borramos registro en BD */
-        moduloModel.findByIdAndRemove(id, (err, data) =>{
-            /* Validamos que no ocurra error en el proceso */
-            if(err){
-                return res.json({
-                    status: 400,
-                    mensaje: "Error al Borrar el Modulo de BD",
-                    err 
-                }) 
-            }
-            /* Si no hay error */
-            res.json({
-                status: 200,
-                data,
-                mensaje: "El Modulo ha sido eliminado correctamente de la BD"
+        if(data.length == 0){
+            moduloModel.findById(id, (err, data) =>{
+                /* Validamos que no ocurra error en el proceso */
+                if(err){
+                    return res.json({
+                        status: 500,
+                        mensaje: "Error en el servidor",
+                        err 
+                    }) 
+                }
+                /* Validamos que el modulo exista */
+                if(!data){
+                    return res.json({
+                        status: 400,
+                        mensaje: "El Modulo no existe en la Colección",
+                        err 
+                    }) 
+                }
+                /* Borramos registro en BD */
+                moduloModel.findByIdAndRemove(id, (err, data) =>{
+                    /* Validamos que no ocurra error en el proceso */
+                    if(err){
+                        return res.json({
+                            status: 400,
+                            mensaje: "Error al Borrar el Modulo de BD",
+                            err 
+                        }) 
+                    }
+                    /* Si no hay error */
+                    res.json({
+                        status: 200,
+                        data,
+                        mensaje: "El Modulo ha sido eliminado correctamente de la BD"
+                    })
+                })
             })
-        })
+        }
+ 
+    })/* clusterModel.find */
 
-    })
+
+
+    
 }
 
 module.exports = {addModulo, getModulos, editModulo, deleteModulo}

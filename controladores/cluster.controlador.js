@@ -28,6 +28,32 @@ let getClusters = async (req, res) =>{
     return clusterModel
 }/* getClusters */
 
+let getClusterNames = async (req, res) =>{
+    /* Requerimos el Modelo */
+    const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
+
+        /* Buscamos en la Coleccion de categorias */
+        clusterModel.find({},{name:true})
+        .exec((err, data) => {
+            /* Si hay Error en la petición */
+            if(err){
+                return res.json({
+                    status : 500,
+                    mensaje: "Error en la petición",
+                    err
+                })
+            }
+            /* Si no hay Error */
+            res.json({
+                status: 200,
+                mensaje: "Clusters",
+                data
+            })
+        })
+    
+        return clusterModel
+}
+
 /* PETICION POST PARA CREAR UN CLUSTER */
 let addCluster = (req, res) => {
 
@@ -230,50 +256,73 @@ let deleteCluster = (req, res) => {
 
     /* Requerimos el Modelo */
     const {clusterModel} = require('../modelos/clusters.modelo')(req.conexion)
+    const {keyWordsModel} = require('../modelos/basekeywords.modelo')(req.conexion)
 
-    //capturamos el ID del Cluster a borrar
+    /* capturamos el ID del Cluster a borrar */
     let id = req.params.id;
 
-    //Buscamos el id que se pasa por parametro del documento a eliminar
-    clusterModel.findById(id, (err, data) =>{
- 
-        //Validamos que no ocurra error en el proceso
+    /* Buscamos el ID del cluster que queremos eliminar en el modelo de
+    KeyWords para validar que no este asociado a una o mas keywords */
+    keyWordsModel.find({cluster: id} , (err, data) =>{
         if(err){
             return res.json({
                 status: 500,
                 mensaje: "Error en el servidor",
                 err 
-            }) 
+            })  
         }
- 
-        //Validamos que la categoria exista
-        if(!data){
+        if(data.length > 0){
             return res.json({
-                status: 400,
-                mensaje: "El Cluster no existe en la BD",
-                err 
-            }) 
+                status: 501,
+                mensaje: "Cluster asociado a una o mas KeyWords, primero elimine esas KeyWords o asocielas a un Cluster diferente",
+                data
+            })  
         }
- 
-        //Borramos registro en BD
-        clusterModel.findByIdAndRemove(id, (err, data) =>{
-            //Validamos que no ocurra error en el proceso
-            if(err){
-                return res.json({
-                    status: 400,
-                    mensaje: "Error al Borrar el cluster de BD",
-                    err 
-                }) 
-            }
- 
-            res.json({
-                status: 200,
-                data,
-                mensaje: "El Cluster ha sido eliminado correctamente de la BD"
+        if(data.length == 0){
+            /* Buscamos el id que se pasa por parametro del documento a eliminar */
+            clusterModel.findById(id, (err, data) =>{
+        
+                /* Validamos que no ocurra error en el proceso */
+                if(err){
+                    return res.json({
+                        status: 500,
+                        mensaje: "Error en el servidor",
+                        err 
+                    }) 
+                }
+        
+                /* Validamos que el cluster categoria exista */
+                if(!data){
+                    return res.json({
+                        status: 400,
+                        mensaje: "El Cluster no existe en la BD",
+                        err 
+                    }) 
+                }
+        
+                /* Buscamos y borramos el Cluster de la colección */
+                clusterModel.findByIdAndRemove(id, (err, data) =>{
+                    /* Validamos que no ocurra error en el proceso */
+                    if(err){
+                        return res.json({
+                            status: 400,
+                            mensaje: "Error al Borrar el cluster de BD",
+                            err 
+                        }) 
+                    }
+                    /* Si no hay Error */
+                    res.json({
+                        status: 200,
+                        data,
+                        mensaje: "El Cluster ha sido eliminado correctamente de la BD"
+                    })
+                })
             })
-        })
+        }
     })
+   
+
 }/* deleteCluster */
 
 /* Exportamos las funciones */
-module.exports = {addCluster, getClusters, editCluster, deleteCluster}
+module.exports = {addCluster, getClusters, editCluster, deleteCluster, getClusterNames}
