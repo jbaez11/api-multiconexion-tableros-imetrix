@@ -10,6 +10,11 @@ function makeNewConnection(dbname) {
         dbName:dbname,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        keepAlive: true,
+        reconnectTries: config.mongoDbReconnectAttempts || 10,
+        reconnectInterval: config.mongoDbReconnectIntervalMs || 120000,
+        connectTimeoutMS: config.mongoDbConnectTimeoutMs || 120000,
+        socketTimeoutMS: config.mongoDbSocketTimeoutMs || 120000,
         //useCreateIndex:true,
         tls: true,
         tlsCAFile: `${__dirname}/../${process.env.CERTIFICATE}`
