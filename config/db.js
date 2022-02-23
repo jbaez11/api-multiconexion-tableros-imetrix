@@ -11,8 +11,7 @@ function makeNewConnection(dbname) {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         keepAlive: true,
-        reconnectTries:  10,
-        reconnectInterval:  3000,
+        
         connectTimeoutMS:  5000,
         socketTimeoutMS:  120000,
         //useCreateIndex:true,
