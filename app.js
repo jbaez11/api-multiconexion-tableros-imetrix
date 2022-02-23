@@ -7,7 +7,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 const app = express();
-const port = 4000;
+const port = 3000;
 //global.conexion = null ;
 
 //middleware body parser
