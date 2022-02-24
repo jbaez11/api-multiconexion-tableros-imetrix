@@ -14,7 +14,9 @@ async function makeNewConnection(dbname) {
             useUnifiedTopology: true,
             //useCreateIndex:true,
             tls: true,
-            tlsCAFile: `${__dirname}/../${process.env.CERTIFICATE}`
+            tlsCAFile: `${__dirname}/../${process.env.CERTIFICATE}`,
+            connectTimeoutMS:  1800000,
+            socketTimeoutMS:  1800000
     
         });
     
