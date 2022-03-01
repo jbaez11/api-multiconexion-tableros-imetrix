@@ -21,11 +21,12 @@ app.use(morgan('dev'));
 
 app.use(cors());
 
-app.use('/:bd/:accion',(req, res, next) => {
-   
+app.use('/:bd/:accion', async (req, res, next) => {
+
     nameDB = req.params.bd;
-    req.conexion = db.makeNewConnection(nameDB);
-    
+    req.conexion = await db.makeNewConnection(nameDB);
+    /* console.log("Conexion", req.conexion) */
+
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
