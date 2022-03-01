@@ -15,6 +15,10 @@ module.exports = function(conexion){
             required: [true, "La categoria es obligatoria!!."],
             lowercase: true
         },
+        orden : {
+            type: Number,
+            required: [false, "El orden es Obligatorio."]
+        },
         createdAt : { 
             type: Date, 
             default: Date.now 
