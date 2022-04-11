@@ -29,8 +29,7 @@ let mostrarConsumo = async (req,res)=>{
 }
 
 module.exports = {
-    mostrarConsumo,
-    
+    mostrarConsumo
 }
 
 

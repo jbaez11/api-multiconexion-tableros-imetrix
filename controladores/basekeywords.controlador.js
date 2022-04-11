@@ -172,5 +172,41 @@ let deleteKeyWord = (req, res) => {
     })
 }/* deleteKeyWord */
 
+/* PETICION PARA OBTENER KEYWORDS POR RANGO DE FECHA */
+let getSelectedKeyWords = async (req, res) =>{
+
+    const {keyWordsModel} = require('../modelos/basekeywords.modelo')(req.conexion)
+
+    let query = req.query;
+
+    let filter = {
+        createdAt:{$gte:[query.createdAt[0]], $lte:[query.createdAt[1]]}
+    }
+    console.log("Filtro", filter)
+    keyWordsModel.find(filter).exec((err, data) =>{
+        if(err){
+            return res.json({
+                status : 500,
+                mensaje: "Error en la petición",
+                err
+            })
+        }
+        
+        res.json({
+            status: 200,
+            mensaje: "Keywords por fecha",
+            data
+        }) 
+    })
+
+    return keyWordsModel
+}/* getSelectedKeywords */
+
 /* Exportamos las funciones */
-module.exports = {addKeyWord, getKeyWords, editKeyWord, deleteKeyWord}
+module.exports = {
+    addKeyWord, 
+    getKeyWords, 
+    editKeyWord, 
+    deleteKeyWord, 
+    getSelectedKeyWords
+}

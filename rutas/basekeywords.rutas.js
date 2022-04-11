@@ -9,6 +9,7 @@ app.post("/:bd/addKeyword", KeyWords.addKeyWord)
 app.get("/:bd/getKeywords", KeyWords.getKeyWords)
 app.put("/:bd/editKeyWord/:id", KeyWords.editKeyWord)
 app.delete("/:bd/deleteKeyWord/:id", KeyWords.deleteKeyWord)
+app.get("/:bd/keywords", KeyWords.getSelectedKeyWords)
 
 /* Exportamos las rutas */
 module.exports = app;
